@@ -1,0 +1,39 @@
+body {
+    height: 100vh;
+    width: 100vw;
+
+    display: flex;
+    
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    position: relative;
+}
+
+.chat {
+ position: absolute;
+ bottom: 0;
+}
+
+form {
+    display: block;
+    padding: 10px;
+}
+
+.messages {
+    position: absolute;
+    top: 2rem;
+    margin: 0; 
+    padding: 0;
+    width: 100%;
+    list-style-type: none; 
+}
+
+.messages > li {
+    padding: 0.5rem 1rem;
+}
+
+.messages > li:nth-child(odd) { 
+    background: #e3e3e3;
+}

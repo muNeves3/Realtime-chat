@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"
+      integrity="sha512-MgkNs0gNdrnOM7k+0L+wgiRc5aLgl74sJQKbIWegVIMvVGPc1+gc1L2oK9Wf/D9pq58eqIJAxOonYPVE5UwUFA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <title>Realtime socket.io</title>
+
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="messages" id="messages"></div>
+
+    <form class="chat" id="form">
+      <input
+        type="text"
+        value=""
+        id="username"
+        name="username"
+        placeholder="Usuário:"
+      />
+
+      <input
+        type="text"
+        value=""
+        id="message"
+        name="message"
+        placeholder="Mensagem:"
+      />
+
+      <button type="submit" class="sendbutton">Enviar</button>
+    </form>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io();
+
+      var messages = document.getElementById("messages");
+      var form = document.getElementById("form");
+      var author = document.getElementById("username");
+      var message = document.getElementById("message");
+
+      function RenderMessage(msg) {
+        var item = document.createElement('li');
+        item.textContent = msg.author + ': ' + msg.message
+        messages.appendChild(item);
+      }
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        if (author.value && message.value) {
+          const messageObj = {
+            author: author.value,
+            message: message.value,
+          };
+
+          socket.emit("SendMessage", messageObj);
+          author.value = "";
+          message.value = "";
+        }
+      });
+
+      socket.on('SendMessage', msg => {
+        RenderMessage(msg);
+        console.log(msg)
+      });
+    </script>
+  </body>
+</html>
